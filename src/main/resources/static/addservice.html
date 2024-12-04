@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Insights</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="css/apexcharts.css" rel="stylesheet">
+
+    <link href="css/tooplate-mini-finance.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/filter.css" rel="stylesheet">
+    <style>
+        .table-bordered {
+            border: 1px solid #000; /* Black thick border for the whole table */
+        }
+
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #000; /* Black thick borders for table headers and cells */
+        }
+    </style>
+    <!--
+
+    Tooplate 2135 Mini Finance
+
+    https://www.tooplate.com/view/2135-mini-finance
+
+    Bootstrap 5 Dashboard Admin Template
+
+    -->
+</head>
+
+<body>
+<header class="navbar sticky-top flex-md-nowrap">
+    <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
+        <a class="navbar-brand" href="index.html">
+            <i class="bi-box"></i>
+            Insights
+        </a>
+    </div>
+
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <form class="custom-form header-form ms-lg-3 ms-md-3 me-lg-auto me-md-auto order-2 order-lg-0 order-md-0 d-flex"
+          action="search.html"
+          method="get"
+          role="form">
+        <input class="form-control me-2" name="search" type="text" placeholder="Search" aria-label="Search" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="navbar-nav me-lg-2">
+        <div class="nav-item text-nowrap d-flex align-items-center">
+            <div class="dropdown ps-3">
+                <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-bell"></i>
+                    <span class="position-absolute start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                </a>
+
+                <ul class="dropdown-menu notifications-block-wrap bg-white shadow">
+                    <small>Notifications</small>
+
+                    <li class="notifications-block border-bottom pb-2 mb-2">
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="notifications-icon-wrap bg-success">
+                                <i class="notifications-icon bi-check-circle-fill"></i>
+                            </div>
+
+                            <div>
+                                <span>Your account has been created successfuly.</span>
+
+                                <p>12 days ago</p>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="notifications-block border-bottom pb-2 mb-2">
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="notifications-icon-wrap bg-info">
+                                <i class="notifications-icon bi-folder"></i>
+                            </div>
+
+                            <div>
+                                <span>Please check. We have sent a Daily report.</span>
+
+                                <p>10 days ago</p>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="notifications-block">
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="notifications-icon-wrap bg-danger">
+                                <i class="notifications-icon bi-question-circle"></i>
+                            </div>
+
+                            <div>
+                                <span>Account verification failed.</span>
+
+                                <p>1 hour ago</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dropdown ps-1">
+                <a class="nav-link dropdown-toggle text-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi-three-dots-vertical"></i>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-social bg-white shadow">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/search.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Google</span>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/spotify.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Spotify</span>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/telegram.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Telegram</span>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/snapchat.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Snapchat</span>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/tiktok.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Tiktok</span>
+                                </a>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <a class="dropdown-item text-center" href="#">
+                                    <img src="images/social/youtube.png" class="profile-image img-fluid" alt="">
+                                    <span class="d-block">Youtube</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown px-3">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="images/medium-shot-happy-man-smiling.jpg" class="profile-image img-fluid" alt="">
+                </a>
+                <ul class="dropdown-menu bg-white shadow">
+                    <li>
+                        <div class="dropdown-menu-profile-thumb d-flex">
+                            <img src="images/medium-shot-happy-man-smiling.jpg" class="profile-image img-fluid me-3" alt="">
+
+                            <div class="d-flex flex-column">
+                                <small>Thomas</small>
+                                <a href="#">thomas@site.com</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="profile.html">
+                            <i class="bi-person me-2"></i>
+                            Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="setting.html">
+                            <i class="bi-gear me-2"></i>
+                            Settings
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item" href="help-center.html">
+                            <i class="bi-question-circle me-2"></i>
+                            Help
+                        </a>
+                    </li>
+
+                    <li class="border-top mt-3 pt-2 mx-4">
+                        <a class="dropdown-item ms-0 me-0" href="#">
+                            <i class="bi-box-arrow-left me-2"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-3 d-md-block sidebar collapse">
+            <div class="position-sticky py-4 px-3 sidebar-sticky">
+                <ul class="nav flex-column h-100">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="dashboardtrial.html">
+                            <i class="bi-house-fill me-2"></i>
+                            Overview
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="Page1.html">
+                            <i class="bi-wallet me-2"></i>
+                            Calendar
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="addclient.html">
+                            <i class="bi-wallet me-2"></i>
+                            Add Client
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="client.html">
+                            <i class="bi-wallet me-2"></i>
+                            My Clients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="addservice.html">
+                            <i class="bi-house-fill me-2"></i>
+                            Modify Service
+                        </a>
+                    </li>
+                    <li class="nav-item border-top mt-auto pt-2">
+                        <a class="nav-link" href="#">
+
+                            <img src="girlsitting.svg" alt="Header Image" class="header-image" style="width: 400px; height: auto;">
+
+                        </a>
+                    </li>
+                    <li class="nav-item border-top mt-auto pt-2">
+                        <a class="nav-link" href="#">
+                            <i class="bi-box-arrow-left me-2"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
+
+
+                <!-- Button to Add Service -->
+            <div class="container mt-5">
+                <!-- Button to Add Service -->
+                <button id="add-service-btn" class="btn btn-primary">Add Service</button>
+
+                <!-- Service Form (Initially Hidden) -->
+                <div id="service-form" class="mt-3" style="display:none;">
+                    <form id="service-form-submit">
+                        <div class="form-group">
+                            <label for="service-name">Service Name</label>
+                            <input type="text" id="service-name" class="form-control" required>
+                        </div>
+
+                        <h5>Task Details:</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="contact-client">
+                            <label class="form-check-label" for="contact-client">Contact Client</label>
+                            <input type="number" id="contact-client-days" class="form-control mt-2" placeholder="Business Days" min="1" style="width: 200px;">
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="initial-intake-interview">
+                            <label class="form-check-label" for="initial-intake-interview">Initial Intake Interview</label>
+                            <input type="number" id="initial-intake-interview-days" class="form-control mt-2" placeholder="Business Days" min="1" style="width: 200px;">
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="complete-employment-action-plan">
+                            <label class="form-check-label" for="complete-employment-action-plan">Complete Employment Action Plan</label>
+                            <input type="number" id="complete-employment-action-plan-days" class="form-control mt-2" placeholder="Business Days" min="1" style="width: 200px;">
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="contact-client-monthly">
+                            <label class="form-check-label" for="contact-client-monthly">Contact Client Monthly</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-3">Save Service</button>
+                    </form>
+                </div>
+
+                <!-- Service List Section -->
+                <div id="service-list" class="mt-3">
+                    <h3>Services</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="service-table-body">
+                        <!-- Service list will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <button id="add-location-btn" class="btn btn-primary">Add Location</button>
+                <div id="location-form" class="mt-3" style="display:none;">
+                    <form id="location-form-submit">
+                        <div class="form-group">
+                            <label for="location-name">Location Name</label>
+                            <input type="text" id="location-name" class="form-control" required>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success mt-3">Save Location</button>
+                    </form>
+                </div>
+
+                <br>
+                <div id="location-list" class="mt-3">
+                    <h3>Locations</h3>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="location-table-body">
+                        <!-- Service list will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Form to Edit Service (Initially Hidden) -->
+                <div id="edit-service-form" class="mt-3" style="display:none;">
+                    <h3>Edit Service</h3>
+                    <form id="edit-service">
+                        <div class="form-group">
+                            <label for="edit-service-name">Service Name</label>
+                            <input type="text" id="edit-service-name" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: none">
+                            <label for="edit-service-id">ID</label>
+                            <input type="text" id="edit-service-id" class="form-control" required>
+                        </div>
+                        <div id="edit-task-details">
+                            <!-- Dynamically Generated Task Details -->
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            </main>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <footer class="site-footer">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12">
+                            <p class="copyright-text">Copyright © Insights
+
+                        </div>
+
+                    </div>
+                </div>
+            </footer>
+
+        </main>
+
+    </div>
+</div>
+
+
+<!-- JAVASCRIPT FILES -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/apexcharts.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/filter.js"></script>
+<script>
+    // Function to Load Services into the List
+    function loadServices() {
+        fetch('http://localhost:8080/api/custom-services')
+            .then(response => response.json())
+            .then(services => {
+                const serviceTableBody = document.getElementById('service-table-body');
+                serviceTableBody.innerHTML = ''; // Clear the table before populating
+
+                services.forEach(service => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${service.serviceName}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="editService('${service.id}')">Edit</button>
+                        </td>
+                    `;
+                    serviceTableBody.appendChild(row);
+                });
+
+                // Show the service list
+                document.getElementById('service-list').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching services:', error);
+            });
+    }
+
+    function loadlocations() {
+        fetch('http://localhost:8080/api/regions')
+            .then(response => response.json())
+            .then(services => {
+                const serviceTableBody = document.getElementById('location-table-body');
+                serviceTableBody.innerHTML = ''; // Clear the table before populating
+
+                services.forEach(service => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${service.name}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="editService('${service.id}')">Edit</button>
+                        </td>
+                    `;
+                    serviceTableBody.appendChild(row);
+                });
+
+                // Show the service list
+                document.getElementById('service-list').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching services:', error);
+            });
+    }
+
+    // Function to Edit a Specific Service
+    function editService(serviceId) {
+        fetch(`http://localhost:8080/api/getServiceById/${serviceId}`)
+            .then(response => response.json())
+            .then(service => {
+                document.getElementById('edit-service-name').value = service.serviceName;
+                document.getElementById('edit-service-id').value = service.id;
+
+                const taskDetailsContainer = document.getElementById('edit-task-details');
+                taskDetailsContainer.innerHTML = ''; // Clear existing tasks
+
+                service.taskDetails.forEach(task => {
+                    const taskDiv = document.createElement('div');
+                    taskDiv.classList.add('form-group');
+                    taskDiv.innerHTML = `
+                        <label>${task.taskType}</label>
+                        <input type="checkbox" class="task-checkbox" data-task-type="${task.taskType}" checked>
+                        <input type="number" class="task-days form-control mt-2" value="${task.businessDays}" min="1">
+                    `;
+                    taskDetailsContainer.appendChild(taskDiv);
+                });
+
+                // Show the edit form and hide the service list
+                document.getElementById('edit-service-form').style.display = 'block';
+                document.getElementById('service-list').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error fetching service details:', error);
+            });
+    }
+
+    // Submit the Edit Form
+    document.getElementById('edit-service').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const serviceId = document.getElementById('edit-service-id').value;
+        const updatedService = {
+            serviceName: document.getElementById('edit-service-name').value,
+            taskDetails: []
+        };
+
+        document.querySelectorAll('.task-checkbox').forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                updatedService.taskDetails.push({
+                    taskType: checkbox.getAttribute('data-task-type'),
+                    businessDays: parseInt(document.querySelectorAll('.task-days')[index].value)
+                });
+            }
+        });
+
+        fetch(`http://localhost:8080/api/updateService/${serviceId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedService)
+        })
+            .then(response => response.json())
+            .then(updated => {
+                alert('Service updated successfully!');
+                document.getElementById('edit-service-form').style.display = 'none';
+                loadServices();
+            })
+            .catch(error => {
+                console.error('Error updating service:', error);
+            });
+    });
+
+    // Add Service Button Functionality
+    document.getElementById('add-service-btn').addEventListener('click', function () {
+        const form = document.getElementById('service-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+     // Add Location Button Functionality
+    document.getElementById('add-location-btn').addEventListener('click', function () {
+        const form = document.getElementById('location-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Submit the Add Service Form
+    document.getElementById('service-form-submit').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const serviceName = document.getElementById('service-name').value;
+        const taskDetails = [];
+
+        // List of tasks
+        const tasks = [
+            { id: 'contact-client', daysId: 'contact-client-days', taskType: 'Contact Client' },
+            { id: 'initial-intake-interview', daysId: 'initial-intake-interview-days', taskType: 'Initial Intake Interview' },
+            { id: 'complete-employment-action-plan', daysId: 'complete-employment-action-plan-days', taskType: 'Complete Employment Action Plan' },
+            { id: 'contact-client-monthly', daysId: null, taskType: 'Contact Client Monthly', defaultDays: 30 }
+        ];
+
+        tasks.forEach(task => {
+            const checkbox = document.getElementById(task.id);
+            const daysInput = task.daysId ? document.getElementById(task.daysId) : null;
+
+            if (checkbox.checked) {
+                taskDetails.push({
+                    taskType: task.taskType,
+                    businessDays: task.defaultDays || parseInt(daysInput.value) || 0
+                });
+            }
+        });
+
+        const newService = { serviceName, taskDetails };
+
+        fetch('http://localhost:8080/api/save-custom-service', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newService)
+        })
+            .then(response => response.json())
+            .then(service => {
+                alert('Service added successfully!');
+                loadServices();
+                document.getElementById('service-form').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error adding service:', error);
+            });
+    });
+
+
+     document.getElementById('location-form-submit').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const serviceName = document.getElementById('location-name').value;
+
+        fetch(`http://localhost:8080/api/regions?name=${serviceName}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+
+        })
+            .then(response => response.json())
+            .then(service => {
+                alert('Location added successfully!');
+                loadlocations();
+                document.getElementById('location-form').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error adding service:', error);
+            });
+    });
+
+    // Load the services initially
+    loadServices();
+    loadlocations();
+</script>
+
+
+
+
+
+</body>
+</html>

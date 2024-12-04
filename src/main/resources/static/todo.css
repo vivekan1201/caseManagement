@@ -1,0 +1,115 @@
+/* Custom Block Styling */
+.custom-block.custom-block-transations {
+  width: 500px; /* Increased width */
+  height: 550px; /* Decreased height */
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #F1FAEE; /* Changed background to white */
+  border-radius: 10px;
+  box-shadow: 0 7px 30px rgba(0, 0, 0, 0.3);
+  color: #000; /* Changed text color to black */
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+}
+
+/* Todo List Styling */
+.todoList {
+  width: 100%;
+  height: 100%;
+  background: #fff; /* Changed background to white */
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 10px;
+  border: 5px solid #000;
+}
+
+/* Cover Image Styling */
+.cover-img .cover-inner {
+  background: url(https://images.unsplash.com/photo-1565172265978-aaa872e3f618?ixlib=rb-1.2.1&auto=format&fit=crop&w=564&q=80);
+  height: 210px;
+  background-size: cover;
+  background-position: 10%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  position: relative;
+}
+
+.cover-img h3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Nunito", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  z-index: 10;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+}
+
+/* Content Styling */
+.content {
+  padding: 10px 20px;
+}
+
+ul.todos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px; /* Display approximately 3 todo items */
+  overflow-y: auto; /* Enable vertical scrolling for extra items */
+}
+
+/* Todo Item Styling */
+.content li {
+  user-select: none;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Checkbox and Label Styling */
+.content input[type="checkbox"] {
+  display: inline-block;
+  margin-right: 8px;
+  cursor: pointer;
+  margin-top:-6%;
+}
+
+.content label {
+  color: #000; /* Changed text color to black */
+  font-size: 15px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.content input[type="checkbox"]:checked + label {
+  color: #808080; /* Changed color to grey for checked items */
+  text-decoration: line-through;
+}
+
+/* Delete Icon Styling */
+.content li i.delete {
+  color: #ffb510;
+  cursor: pointer;
+}
+
+/* Scrollbar Style */
+ul.todos::-webkit-scrollbar {
+  width: 8px;
+}
+
+ul.todos::-webkit-scrollbar-thumb {
+  background-color: #ffb510;
+  border-radius: 10px;
+  border: 2px solid #fff; /* Changed border to match white background */
+}
+
+ul.todos::-webkit-scrollbar-track {
+  background-color: #e0e0e0; /* Adjusted track color for better contrast */
+  border-radius: 10px;
+}
+
+ul.todos::-webkit-scrollbar-thumb:hover {
+  background-color: #e0a900;
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Services Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            height: 230vh;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .chart-container {
+            width: 80%;
+            margin: auto;
+            margin-bottom: 30px;
+        }
+        canvas {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Insight Management</h2>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/chart.html">Show Reports</a>
+    <a href="#link2">Add Task</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/addclient.html">Add Client</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filter.html">Filter Clients</a>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+    <h2>Top Performing Staffs</h2>
+
+    <div class="chart-container">
+        <canvas id="staffChart" width="400" height="200"></canvas>
+    </div>
+
+    <h2>Client Services</h2>
+
+    <div class="chart-container">
+        <canvas id="clientChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        async function fetchTopStaffData() {
+            const response = await fetch('http://localhost:8080/api/getopstaff');
+            const data = await response.json();
+            return data;
+        }
+
+        async function fetchChartData() {
+            const response = await fetch('http://localhost:8080/api/chartData');
+            const data = await response.json();
+            return data;
+        }
+
+        function renderTopStaffChart(staffData) {
+            const staffNames = staffData.map(staff => staff.employeeName);
+            const taskCounts = staffData.map(staff => staff.completedTasks);
+
+            const ctx = document.getElementById('staffChart').getContext('2d');
+            const staffChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: staffNames,
+                    datasets: [{
+                        label: 'Number of Tasks',
+                        data: taskCounts,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderClientChart(clientData) {
+            const serviceCounts = {};
+
+            clientData.forEach(client => {
+                const service = client.service;
+                serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+            });
+
+            const labels = Object.keys(serviceCounts);
+            const dataValues = Object.values(serviceCounts);
+
+            const ctx = document.getElementById('clientChart').getContext('2d');
+            const clientChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Clients',
+                        data: dataValues,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fetch top staff data and render the chart
+        fetchTopStaffData().then(renderTopStaffChart);
+
+        // Fetch client data and render the client services chart
+        fetchChartData().then(renderClientChart);
+    </script>
+</div>
+
+</body>
+</html>

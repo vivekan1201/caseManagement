@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Clients</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        /* CSS for styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .client-info {
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .task-details {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+        .username {
+            font-weight: bold;
+            color: #333;
+        }
+       .header-image {
+    width: 100%; /* Allow the image to occupy full width of the remaining space */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100px; /* Optional: set maximum height for better design */
+    margin: 0; /* Remove margins that cause gaps */
+}
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Insight Management</h2>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/chart.html">Show Reports</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filtertasks.html">Filter Tasks</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/showtask.html">Clients Status</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/addclient.html">Add Client</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filter.html">Filter Clients</a>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+    <div class="header">
+        <div class="username">Welcome: JohnDoe</div>
+        <a href="http://localhost:63342/casetool/src/main/resources/templates/login.html" class="logout-btn">Logout</a>
+    </div>
+
+    <img src="image.png" alt="Header Image" class="header-image">
+
+    <h2>My Clients</h2>
+    <div id="client-list"></div>
+</div>
+
+<script>
+
+    let username = '';
+
+// Fetch the username first
+fetch('http://localhost:8080/api/getUsername')
+    .then(response => response.text()) // Get the response as text
+    .then(data => {
+        username = data;
+        // Update the username displayed on the page
+        document.querySelector('.username').textContent = `Welcome ${username}`;
+
+        // Now fetch client data using the retrieved username
+        return fetch(`http://localhost:8080/api/myclients?staff=${username}`); // Pass username in the API call
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Fetched data:", data); // Log the fetched data
+        const clientListDiv = document.getElementById('client-list');
+        clientListDiv.innerHTML = ''; // Clear previous content
+
+        // Check if data is empty
+        if (!data || data.length === 0) {
+            clientListDiv.innerHTML = '<p>No clients found.</p>';
+            return;
+        }
+
+        // Display unique client names
+        const clients = [...new Set(data.map(client => client.firstName + ' ' + client.lastName))]; // Unique client names
+
+        console.log("Unique clients:", clients); // Log the unique clients
+
+        clients.forEach(clientName => {
+            const clientElement = document.createElement('div');
+            clientElement.classList.add('client-info');
+            clientElement.innerHTML = `<p><strong>Client Name:</strong> ${clientName}</p>`;
+
+            // Add click event to show or hide client details
+            clientElement.addEventListener('click', function () {
+                showClientDetails(clientName, data, clientElement);
+            });
+
+            clientListDiv.appendChild(clientElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.querySelector('.username').textContent = 'Logged in as: Guest'; // Fallback if error occurs
+        alert('Error fetching clients: ' + error.message);
+    });
+
+    // Show or hide client details right below the client name, and toggle visibility on click
+    function showClientDetails(clientName, clients, clientElement) {
+        // Check if the client details are already appended
+        let existingClientDetailsDiv = clientElement.querySelector('.task-details');
+
+        if (existingClientDetailsDiv) {
+            // If client details already exist, remove them (hide the client details)
+            clientElement.removeChild(existingClientDetailsDiv);
+            return; // Exit the function to stop further execution
+        }
+
+        // Find the selected client
+        const client = clients.find(client => client.firstName + ' ' + client.lastName === clientName);
+
+        if (!client) {
+            console.log("No client found for:", clientName);
+            return;
+        }
+
+        // Create client details content
+        const clientDetailsDiv = document.createElement('div');
+        clientDetailsDiv.classList.add('task-details');
+        const dateOfBirth=client.dob.split('T')[0]
+        const startDate=client.startDate.split('T')[0]
+        const referralDate=client.referralDate.split('T')[0]
+        clientDetailsDiv.innerHTML = `
+            <p><strong>Service:</strong> ${client.service}</p>
+            <p><strong>Reference Number:</strong> ${client.referenceNumber}</p>
+            <p><strong>Referral Date:</strong> ${referralDate}</p>
+            <p><strong>Date of Birth:</strong> ${dateOfBirth}</p>
+            <p><strong>Address:</strong> ${client.address}</p>
+            <p><strong>Phone:</strong> ${client.phone}</p>
+            <p><strong>Email:</strong> ${client.email}</p>
+            <p><strong>Region:</strong> ${client.region}</p>
+            <p><strong>Start Date:</strong> ${startDate}</p>
+        `;
+
+        // Append the client details below the clicked client name
+        clientElement.appendChild(clientDetailsDiv);
+    }
+</script>
+
+</body>
+</html>

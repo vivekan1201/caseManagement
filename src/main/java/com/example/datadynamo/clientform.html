@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Intake Form</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional CSS for styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .header-image {
+            max-width: 100%; /* Ensures the image is responsive */
+            height: 400px;
+            margin-bottom: 20px; /* Space between the image and the form */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Image -->
+<img src="image.png" alt="Header Image" class="header-image"> <!-- Header image added -->
+
+<h2>Client Intake Form</h2>
+<form id="client-form">
+    <label for="service">Service:</label>
+    <select id="service" name="service" required>
+        <option value="IES">IES</option>
+        <option value="WSIB ES">WSIB ES</option>
+        <option value="WSIB Training">WSIB Training</option>
+        <option value="CPP">CPP</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <label for="last-name">Client Last Name:</label>
+    <input type="text" id="last-name" name="lastName" required>
+
+    <label for="first-name">Client First Name:</label>
+    <input type="text" id="first-name" name="firstName" required>
+
+    <label for="reference-number">Reference #:</label>
+    <input type="text" id="reference-number" name="referenceNumber" required>
+
+    <label for="referral-date">Referral Date:</label>
+    <input type="date" id="referral-date" name="referralDate" required>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" required>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required>
+
+    <label for="phone">Phone #:</label>
+    <input type="tel" id="phone" name="phone" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="region">Region/Office:</label>
+    <select id="region" name="region" required>
+        <option value="Windsor">Windsor</option>
+        <option value="Leamington">Leamington</option>
+        <option value="Harrow">Harrow</option>
+        <option value="Amherstburg">Amherstburg</option>
+        <option value="Tilbury">Tilbury</option>
+        <option value="Chatham">Chatham</option>
+    </select>
+
+    <label for="staff">Assigned Staff:</label>
+    <select id="staff" name="staff" required>
+        <option value="Sarah">Sarah</option>
+        <option value="Theresa">Theresa</option>
+        <option value="Jodie">Jodie</option>
+        <option value="Katrina">Katrina</option>
+        <option value="Ester">Ester</option>
+    </select>
+
+    <label for="start-date">Service Start Date:</label>
+    <input type="date" id="start-date" name="startDate" required>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('client-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Gather form data
+
+        // Send POST request
+        fetch('http://localhost:8080/api/submitTask', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Mail sent successfully!');
+                this.reset(); // Reset the form after successful submission
+            } else {
+                throw new Error('Failed to send mail.');
+            }
+        })
+        .catch(error => {
+            alert(error.message); // Show error message
+        });
+    });
+</script>
+
+</body>
+</html>

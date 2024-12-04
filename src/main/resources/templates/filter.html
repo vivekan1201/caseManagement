@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Clients</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Optional CSS for styling -->
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .client-info {
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0; /* Add space between client info blocks */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .client-info p {
+            margin: 5px 0; /* Space between paragraphs */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Insight Management</h2>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/chart.html">Show Reports</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filtertasks.html">Filter Tasks</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/showtask.html">Clients Status</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/addclient.html">Add Client</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filter.html">Filter Clients</a>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+    <h2>Filter Clients by Service Type or Staff</h2>
+    <form id="filter-form">
+        <label for="service">Service Type:</label>
+        <select id="service" name="service">
+            <option value="">All Services</option> <!-- Option for filtering all service types -->
+            <option value="IES">IES</option>
+            <option value="WSIB ES">WSIB ES</option>
+            <option value="WSIB Training">WSIB Training</option>
+            <option value="CPP">CPP</option>
+        </select>
+
+        <label for="staff">Staff:</label>
+        <select id="staff" name="staff">
+            <option value="">All Staff</option> <!-- Option for filtering all staff members -->
+            <option value="Sarah">Sarah</option>
+            <option value="Theresa">Theresa</option>
+            <option value="Jodie">Jodie</option>
+            <option value="Katrina">Katrina</option>
+            <option value="Ester">Ester</option>
+            <!-- Add more staff options as needed -->
+        </select>
+
+        <button type="submit">Filter Clients</button>
+    </form>
+
+    <div id="filtered-clients" style="margin-top: 20px;"></div>
+</div>
+
+<script>
+    document.getElementById('filter-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Gather form data
+        const serviceType = formData.get('service');
+        const staff = formData.get('staff');
+
+        // Construct the query URL based on selected filters
+        let url = `http://localhost:8080/api/clients?`;
+        if (serviceType) url += `service=${serviceType}&`;
+        if (staff) url += `staff=${staff}`;
+
+        // Send GET request to fetch filtered clients
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const clientsDiv = document.getElementById('filtered-clients');
+                clientsDiv.innerHTML = ''; // Clear previous results
+
+                if (data.length > 0) {
+                    data.forEach(client => {
+                        const clientInfo = `<div class="client-info">
+                            <p><strong>Client Name:</strong> ${client.firstName} ${client.lastName}</p>
+                            <p><strong>Reference Number:</strong> ${client.referenceNumber}</p>
+                            <p><strong>Email:</strong> ${client.email}</p>
+                        </div>`;
+                        clientsDiv.innerHTML += clientInfo;
+                    });
+                } else {
+                    clientsDiv.innerHTML = '<p>No clients found for the selected filters.</p>';
+                }
+            })
+            .catch(error => {
+                alert('Error fetching clients: ' + error.message);
+            });
+    });
+</script>
+
+</body>
+</html>

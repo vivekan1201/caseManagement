@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Clients</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        /* CSS for styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            height: 100vh;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .client-info {
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .task-details {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Insight Management</h2>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/chart.html">Show Reports</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filtertasks.html">Filter Tasks</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/showtask.html">Clients Status</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/addclient.html">Add Client</a>
+    <a href="http://localhost:63342/casetool/src/main/resources/templates/filter.html">Filter Clients</a>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+    <h2>Clients</h2>
+    <div id="client-list"></div>
+</div>
+
+<script>
+    // Fetch all tasks from the API
+    fetch('http://localhost:8080/api/tasks')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Fetched data:", data);  // Log the fetched data
+            const clientListDiv = document.getElementById('client-list');
+            clientListDiv.innerHTML = '';  // Clear previous content
+
+            // Check if data is empty
+            if (!data || data.length === 0) {
+                clientListDiv.innerHTML = '<p>No tasks found.</p>';
+                return;
+            }
+
+            // Display unique client names
+            const clients = [...new Set(data.map(task => task.clientName))];  // Unique client names
+
+            console.log("Unique clients:", clients);  // Log the unique clients
+
+            clients.forEach(client => {
+                const clientElement = document.createElement('div');
+                clientElement.classList.add('client-info');
+                clientElement.innerHTML = `<p><strong>Client Name:</strong> ${client}</p>`;
+
+                // Add click event to show or hide task details
+                clientElement.addEventListener('click', function() {
+                    showTaskDetails(client, data, clientElement);
+                });
+
+                clientListDiv.appendChild(clientElement);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching tasks:', error);
+            alert('Error fetching tasks: ' + error.message);
+        });
+
+    // Show or hide task details right below the client name, and toggle visibility on click
+    function showTaskDetails(clientName, tasks, clientElement) {
+        // Check if the task details are already appended
+        let existingTaskDetailsDiv = clientElement.querySelector('.task-details');
+
+        if (existingTaskDetailsDiv) {
+            // If task details already exist, remove them (hide the task details)
+            clientElement.removeChild(existingTaskDetailsDiv);
+            return; // Exit the function to stop further execution
+        }
+
+        // Find tasks for the selected client
+        const task = tasks.find(task => task.clientName === clientName);
+
+        if (!task) {
+            console.log("No task found for client:", clientName);
+            return;
+        }
+
+        // Create task details content
+        const taskDetailsDiv = document.createElement('div');
+        taskDetailsDiv.classList.add('task-details');
+        taskDetailsDiv.innerHTML = `
+            <p><strong>Task Name:</strong> ${task.taskName}</p>
+            <p><strong>Status:</strong> ${task.taskStatus}</p>
+            <p><strong>Assigned To:</strong> ${task.assignedEmployee}</p>
+        `;
+
+        // Append the task details below the clicked client name
+        clientElement.appendChild(taskDetailsDiv);
+    }
+</script>
+
+</body>
+</html>
